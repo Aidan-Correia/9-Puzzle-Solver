@@ -1,0 +1,1 @@
+This was a school project in which i designed a python program that takes in a "9 puzzle" as a comma seperated list, where _ represents the position of the blank space, and solves the 9 puzzle using various search algorithms.
