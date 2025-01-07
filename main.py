@@ -24,7 +24,7 @@ def inputAsInt(input_list):
     return temp_array
 
 def getHM(game_state_array, goal_state):
-        
+        #gets the Manhatten distance to the goal state from the given puzzle state
         goal_index = 0
         current_state_index = 0        
         
@@ -39,6 +39,7 @@ def getHM(game_state_array, goal_state):
         return total_h
 
 def getHE(game_state_array, goal_state):
+        #gets the euclidean distance to the goal state from the given puzzle state
         goal_index = 0
         current_state_index = 0        
 
@@ -52,6 +53,7 @@ def getHE(game_state_array, goal_state):
         return total_h
 
 def isSolvable(game_state_list):
+    #determines if a puzzle is solvable given the initial state
     total_inversions = 0
     
     for index in range(0,9):
@@ -70,6 +72,7 @@ class puzzleGraph:
     
 
     def __init__(self, shuffle = False, force_solvable = False):
+        #initialize puzzle from given input file
         state_list = inputAsInt(getInput())
         if shuffle:
             random.shuffle(state_list)
@@ -91,13 +94,14 @@ class puzzleGraph:
 
 
     def goalTest(self):
-       
+       #determine if the puzzle is solved
         for i in range(0,9):
             if self.game_state_current[i] != i:
                 return False
         return True
 
     def moveRight(self):
+        #imitates moving the puzzle to the right, returns new state of puzzle
         blank_index = self.game_state_current.index(0)
         temp_array = list(self.game_state_current)
         if blank_index%3 == 0:
@@ -107,6 +111,7 @@ class puzzleGraph:
         return tuple(temp_array)
 
     def moveUp(self):
+        #imitates moving the puzzle up, returns new state of puzzle
         blank_index = self.game_state_current.index(0)
         temp_array = list(self.game_state_current)
         if blank_index//3 == 2:
@@ -116,6 +121,7 @@ class puzzleGraph:
         return tuple(temp_array)
 
     def moveLeft(self):
+        #imitates moving the puzzle to the left, returns new state of puzzle
         blank_index = self.game_state_current.index(0)
         temp_array = list(self.game_state_current)
         
@@ -126,6 +132,7 @@ class puzzleGraph:
         return tuple(temp_array)
 
     def moveDown(self):
+        #imitates moving the puzzle down, returns new state of puzzle
         blank_index = self.game_state_current.index(0)
         temp_array = list(self.game_state_current)
         if blank_index//3 == 0:
@@ -136,7 +143,7 @@ class puzzleGraph:
 
 
     def expand(self):
-        
+        #expands the current node, adding the subsequent states and associated actions to the fringe
         temp_fringe = []
         
         
@@ -157,6 +164,7 @@ class puzzleGraph:
     
    
     def solvePuzzleDFS(self):
+        #solves the given puzzle with a Depth First Search policy
         visited = set()
         fringe = deque()    
         fringe.append((self.game_state_start, '')) 
@@ -185,6 +193,7 @@ class puzzleGraph:
 
 
     def solvePuzzleBFS(self):
+        #solves the given puzzle with a Breadth First Search policy
         visited = set()
         fringe = deque()    
         fringe.append((self.game_state_start, '')) 
@@ -212,6 +221,7 @@ class puzzleGraph:
 
 
     def solvePuzzleUCS(self):
+        #solves the given puzzle with a Uniform Cost Search policy
         visited = set()
         fringe = {}   
         fringe[0] = deque([(self.game_state_start, '')])
@@ -258,6 +268,7 @@ class puzzleGraph:
     
     
     def solvePuzzleA(self, hFunc = getHM):
+        #solves the given puzzle with a A* Search policy with the given heuristic (in this case either manhattan distance (default), or Euclidean Distance))
         visited = set()
         fringe = {}  
         current_cost = 0
